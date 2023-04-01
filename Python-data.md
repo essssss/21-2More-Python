@@ -279,3 +279,357 @@ Sets are SO FAST!!!
 -  `set.remove(item)` - removes item from set
 -  `len(set)` - returns length of set
 -  `set.copy()` - makes a copy ... this time it doesn't matter that it's a shallow copy, because we won't have mutable data types
+
+---
+
+# Set Operations
+
+Mathematical style ways to compare sets.
+
+```python
+moods = {"happy", "sad", "grumpy"}
+
+dwarfs = { "happy", "grumpy", "doc"}
+
+
+moods | dwarfs          # union: {"happy", "sad", "grumpy", "doc"}
+
+moods & dwarfs          # intersection: {"happy", "grumpy"}
+
+moods - dwarfs          # difference: {"sad"}
+dwarfs - moods          # difference: {"doc"}
+
+moods ^ dwarfs          # symmetric difference {"sad", "doc"}
+```
+
+---
+
+-  Union
+
+   ```python
+   lemon = {'sour', 'yellow', 'fruit', 'bumpy'}
+   banana = {'fruit', 'smooth', 'sweet', 'yellow'}
+
+   In [4]: lemon | banana
+   Out[4]: {'bumpy', 'fruit', 'smooth', 'sour', 'sweet', 'yellow'}
+   ```
+
+-  Union creates a set that contains **all** items.
+
+   -  also use `banana.union(lemon)`
+
+-  We can chain unions together with multiple pipes `|`
+
+---
+
+-  Intersection
+   ```python
+   In [5]: lemon & banana
+   Out[5]: {'fruit', 'yellow'}
+   ```
+-  Intersection creates a set that only returns the values common to **both** sets
+
+---
+
+-  Difference
+
+   ```python
+   In [6]: lemon - banana
+   Out[6]: {'bumpy', 'sour'}
+
+   In [7]: banana - lemon
+   Out[7]: {'smooth', 'sweet'}
+   ```
+
+-  Difference creates a set containing the elements of the **first** set that are not present in the **second** set.
+   -  like subtracting the second set from the first.
+   -  order matters
+
+---
+
+-  Symmetric Difference
+   ```python
+   In [8]: banana ^ lemon
+   Out[8]: {'bumpy', 'smooth', 'sour', 'sweet'}
+   ```
+-  Symmetric Difference creates a new set that contains only elements that are in **exactly one** of the sets.
+
+---
+
+## **The shortcut operators only work on sets**
+
+BUT the keywords (`set.union(set2)`) will work on any iterable for `set2`, by turning the iterable into a set.
+
+---
+
+```python
+In [11]: lemon & orange
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+Cell In[11], line 1
+----> 1 lemon & orange
+
+TypeError: unsupported operand type(s) for &: 'set' and 'list'
+```
+
+---
+
+```python
+In [12]: lemon.intersection(orange)
+Out[12]: {'bumpy', 'fruit'}
+```
+
+---
+
+```python
+In [13]: orange.intersection(lemon)
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+Cell In[13], line 1
+----> 1 orange.intersection(lemon)
+
+AttributeError: 'list' object has no attribute 'intersection'
+```
+
+---
+
+# sets are iterable
+
+```python
+for adj in banana:
+   print(adj)
+
+# sweet
+# yellow
+# fruit
+# smooth
+```
+
+---
+
+we can also add our new operations to that iterability <small>(cool word)</small>
+
+```python
+for adj in banana | lemon | set(orange):
+   print(adj)
+
+# fruit
+# sweet
+# sour
+# orange
+# yellow
+# smooth
+# bumpy
+```
+
+---
+
+## There is a demonstration of how sets are **_super_** duper fast.
+
+---
+
+# <center> **_TUPLES_**</center>
+
+### Tuples:
+
+immutable, ordered sequence
+
+-  Like lists, but _immutable_
+
+-  created with parentheses.
+-  cannot do things like "append" or change items
+-  can access data with an index `tuple[0]`
+
+```python
+t1 = (1, 2, 3)
+t2 = ()           # empty tuple
+t3 = (1,)         # one-item tuple: note trailing comma
+```
+
+-  values do not have to be unique.
+-  can turn an iterable into a tuple with `tuple(list)`
+
+---
+
+## why tuples?
+
+-  slightly smaller and faster than lists.
+-  Since they are immutable they can be used as keys for dictionaries, or put into sets.
+-  when we look at `dictionary.items()` each key value pair is returned as a **tuple**
+
+---
+
+Not many methods with a tuple.
+`count` and `index` which are self explanatory.
+
+---
+
+# <center> COMPREHENSIONS </center>
+
+### List Comprehension:
+
+-  Python has `filter()` and `map()` like JS
+-  but _comprehensions_ are even more flexible
+
+---
+
+Finding the evens without `comprehension`
+
+```python
+nums = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+
+evens = []
+for num in nums:
+   if num % 2 == 0:
+      evens.append(num)
+
+print(evens)
+# [2, 4, 6, 8, 10, 12]
+```
+
+---
+
+OR in python we can do this:
+
+```python
+evens = [num for num in nums if num % 2 == 0]
+```
+
+---
+
+```python
+ [num * 2 for num in nums]
+#|       |               |
+#|       |---This part---| is the looping part.
+#|       |
+#|-This--| part is what we add to the new list.
+#|       |               |
+ ['HIIII' for num in nums]
+```
+
+-  We use the brackets to make the output a list
+
+---
+
+```python
+# [2,4,6,8] square it
+[n * n for n in [2,4,6,8]]
+```
+
+---
+
+## Mapping into a list
+
+```python
+[x for x in range(3)]
+#[0, 1, 2]
+
+[[] for x in range(3)]
+#[[], [], []]
+
+[[0 for y in range(3)] for x in range(3)]
+[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+```
+
+-  look! we made a tic tac toe board!
+
+---
+
+## Here is a function to create a square gameboard with varying sizes
+
+```python
+def gen_board(size, initial_val=None):
+   return[[initial_val for x in range(size)] for y in range(size)]
+```
+
+```python
+In [3]: gen_board(5, 0)
+Out[3]:
+[[0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0],
+ [0, 0, 0, 0, 0]]
+```
+
+---
+
+## Adding in conditional logic
+
+```python
+doubled_evens = [n * 2 for n in nums if n % 2 == 0]
+```
+
+OR
+
+```python
+chickens = [
+   {"name": 'Henry', "sex": 'Rooster'},
+   {"name": 'Lady Gray', "sex": 'Hen'},
+   {"name": 'Junior', "sex": 'Rooster'},
+   {"name": 'Stevie Chicks', "sex": 'Hen'},
+   {"name": 'Rocket', "sex": 'Hen'},
+   {"name": 'Butters', "sex": 'Rooster'},
+]
+hens = [bird["name"] for bird in chickens if bird["sex"]== "Hen"]
+
+# hens = ['Lady Gray', 'Stevie Chicks', 'Rocket']
+```
+
+For if/else style conditionals:
+
+```python
+[do_this if something else do_that for thing in things]
+```
+
+---
+
+Hey look at this morse code!
+
+```python
+# Functions inside a comprehension:
+
+def get_letter(ltr):
+    morse_lookup = {'A':'.-', 'B':'-...', 'Z':'-.--.-'}
+    return morse_lookup.get(ltr.upper(), '')
+
+msg = [get_letter(char) for char in 'SOS']
+
+def get_morse_code(string):
+    return " ".join([get_letter(char) for char in string])
+```
+
+---
+
+# Dictionary Comprehension:
+
+same as list but use curly braces
+
+```python
+{day : 0 for day in 'MTWRFSU'}
+
+# {'M': 0, 'T': 0, 'W': 0, 'R': 0, 'F': 0, 'S': 0, 'U': 0}
+```
+
+A dictionary with a number as a key and its square as a value:
+`{1:1, 2:4, 3:9, 4:16, ...etc}`
+
+```python
+{num: num * num for num in range(1,10)}
+#{1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64, 9: 81}
+```
+
+Or only squares of even numbers:
+
+```python
+{num: num * num for num in range(1,10) if num % 2 == 0}
+```
+
+---
+
+## Also do set comprehensions
+
+```python
+{char for char in "abracadabra"}
+# {'a', 'b', 'c', 'd', 'r'}
+```
