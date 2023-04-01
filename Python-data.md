@@ -234,6 +234,41 @@ fruit_colors = {
 
 ---
 
+## Iterating over dictionaries:
+
+```python
+chicken = { 'name': 'Lady Gray',
+            'breed': 'Silkie',
+            'total_egg_count': 12,
+            'egg_chart': {
+               'M': True,
+               'T': True,
+               'W': True,
+               'TH': True,
+               'F': True,
+               'S': False,
+               'SU': True
+            },
+            'coop_mates': ['Butters', 'Stevie', 'Henry']
+            }
+```
+
+-  `dict.keys()` - returns a not-quite-list of keys
+   -  we can iterate over it, but not much else.
+-  `dict.values()` - is the same but for values
+-  `dict.items()` - returns a tuple of `(key, value)`
+
+## We can **unpack** key and value while looping
+
+```python
+for (name, age) in ages.items():
+   print(name, 'is', age)
+```
+
+## In modern python, dictionaries are ORDERED based on insertion order.
+
+---
+
 # <center>**SETS**</center>
 
 ## <center> Unordered, unique collection of items, like JS **_Set_** </center>

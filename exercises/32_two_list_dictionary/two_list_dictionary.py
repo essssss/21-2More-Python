@@ -15,7 +15,15 @@ def two_list_dictionary(keys, values):
         >>> two_list_dictionary(['a', 'b', 'c'], [1, 2, 3, 4])
         {'a': 1, 'b': 2, 'c': 3}
    """
-    if len(keys) > len(values):
-        difference = len(keys) - len(values)
-        values.append(None) * difference
-    return {keys[num] : values[num] for num in range(0, len(keys))}
+    # if len(keys) > len(values):
+
+
+    # return {keys[num] : values[num] for num in range(0, len(keys))}
+
+
+    out = {}
+
+    for idx, val in enumerate(keys):
+        out[val] = values[idx] if idx < len(values) else None
+
+    return out
